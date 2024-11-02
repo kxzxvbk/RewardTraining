@@ -60,7 +60,7 @@ if __name__ == "__main__":
             " Make sure to pass --lora_task_type SEQ_CLS when using this script with PEFT."
         )
 
-    model = PeftModel.from_pretrained(model, training_args.output_dir)
+    model = PeftModel.from_pretrained(model, training_args.output_dir).base_model.model
     sd = torch.load(os.path.join(training_args.output_dir, 'final.pt'))
     model.load_state_dict(sd)
     model = model.eval().cuda()
