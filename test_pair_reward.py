@@ -1,4 +1,5 @@
 import warnings
+import os
 
 import torch
 from utils import load_pair_dataset
@@ -18,7 +19,6 @@ from trl import (
 
 
 if __name__ == "__main__":
-    lora_model_path = './llama3.1_reward-lora'
     parser = HfArgumentParser((ScriptArguments, RewardConfig, ModelConfig))
     script_args, training_args, model_config = parser.parse_args_into_dataclasses()
     print(f"Script args: \n {script_args}")
@@ -60,7 +60,10 @@ if __name__ == "__main__":
             " Make sure to pass --lora_task_type SEQ_CLS when using this script with PEFT."
         )
 
-    model = PeftModel.from_pretrained(model, lora_model_path)
+    model = PeftModel.from_pretrained(model, training_args.output_dir)
+    sd = torch.load(os.path.join(training_args.output_dir, 'final.pt'))
+    model.load_state_dict(sd)
+    model = model.eval().cuda()
 
     ##############
     # Load dataset

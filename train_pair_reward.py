@@ -1,4 +1,5 @@
 import warnings
+import os
 
 import torch
 from utils import load_pair_dataset
@@ -80,6 +81,8 @@ if __name__ == "__main__":
     # Save model and push to Hub
     ############################
     trainer.save_model(training_args.output_dir)
+    torch.save(model.state_dict(), os.path.join(training_args.output_dir, 'final.pt'))
+
     metrics = trainer.evaluate()
     trainer.log_metrics("eval", metrics)
     trainer.save_metrics("eval", metrics)
