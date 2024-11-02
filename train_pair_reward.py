@@ -1,23 +1,3 @@
-"""
-python train_pair_reward.py \
-    --model_name_or_path /data/share/llama3.1-8b-base/ \
-    --dataset_name data/pair_dataset \
-    --output_dir llama3.1_reward-lora \
-    --per_device_train_batch_size 2 \
-    --gradient_accumulation_steps 4 \
-    --num_train_epochs 1 \
-    --gradient_checkpointing True \
-    --bf16 True \
-    --attn_implementation flash_attention_2 \
-    --learning_rate 1.0e-4 \
-    --logging_steps 25 \
-    --eval_strategy steps \
-    --eval_steps 50 \
-    --max_length 2048 \
-    --use_peft \
-    --lora_r 4 \
-    --lora_alpha 8
-"""
 import warnings
 
 import torch
