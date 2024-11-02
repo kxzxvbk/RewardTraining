@@ -67,12 +67,12 @@ if __name__ == "__main__":
     ##############
     dataset = load_pair_dataset(script_args.dataset_name)['train']
 
-    for i in range(len(dataset)):
+    for i in range(len(dataset["train"])):
         sample_chosen = dataset[i]['chosen']
         sample_rejected = dataset[i]['rejected']
 
-        sample_chosen = tokenizer.encode(sample_chosen, add_special_tokens=True, return_tensors='pt').unsqueeze(0)
-        sample_rejected = tokenizer.encode(sample_rejected, add_special_tokens=True, return_tensors='pt').unsqueeze(0)
+        sample_chosen = tokenizer.encode(sample_chosen, add_special_tokens=True, return_tensors='pt').cuda()
+        sample_rejected = tokenizer.encode(sample_rejected, add_special_tokens=True, return_tensors='pt').cuda()
 
         r1 = model.forward(sample_chosen).logits.item()
         r2 = model.forward(sample_rejected).logits.item()
